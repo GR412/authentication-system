@@ -1,0 +1,11 @@
+{% extends 'header_footer.html.twig'%}
+{% block content %}
+    <h3>Register A New Account</h3>
+
+    <form action="{{ action_register }}" method="post">
+        <p>Email: <input type="text" name="email"><br></p>
+        <p>Username: <input type="text" name="username"><br></p>
+        <p>Password: <input type="text" name="password"><br></p>
+        <input type="submit" value="Create Account">
+    </form>
+{% endblock %}

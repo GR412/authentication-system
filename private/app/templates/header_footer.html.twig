@@ -1,0 +1,40 @@
+{% extends 'layout.html.twig' %}
+{% block title %}{{ page_title }}{% endblock %}
+{% block header %}
+    <header>
+        <h1>Login App</h1>
+
+        <p class="curr_page"><a href="{{ landing_page }}">Home</a></p>
+
+        <form action="{{ register_form }}" method="get">
+            <input type="submit" value="Sign Up" />
+        </form>
+
+        <form action="{{ login_form }}" method="get">
+            <input type="submit" value="Login" />
+        </form>
+
+        <form action="{{ action }}" method="get">
+            <input type="submit" value="Log Out" />
+        </form>
+    </header>
+{% endblock %}
+{% block footer %}
+    <footer> <!--FOOTER START-->
+        <p>Created By GR412 2018</p>
+
+        <div class="icons">	<!--FOOTER ICONS START-->
+            <a title="GR412's Youtube channel" href="https://www.youtube.com/user/GR412" target="_blank">
+                <img src="images/youtube-icon.png" alt="youtube-icon"/>
+            </a>
+
+            <a title="GR412's Twitch channel" href="http://www.twitch.tv/gr412" target="_blank">
+                <img src="images/twitch-icon.png" alt="twitch-icon"/>
+            </a>
+
+            <a title="GR412's Github" href="https://github.com/GR412" target="_blank">
+                <img src="images/github-icon.png" alt="github-icon"/>
+            </a>
+        </div> <!--FOOTER ICONS END-->
+    </footer> <!--FOOTER END-->
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'header_footer.html.twig'%}
+{% block content %}
+    <h3>Login To An Existing Account</h3>
+
+    <form action="{{ action_login }}" method="{{ method }}">
+        <p>Username: <input type="text" name="username"><br></p>
+        <p>Password: <input type="text" name="password"><br></p>
+        <input type="submit" title="Login To Account">
+    </form>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends 'header_footer.html.twig'%}
+{% block content %}
+    <h3>Successfully Logged Out</h3>
+    <h4>Please press the button to proceed</h4>
+
+    <form action="{{ action_logout }}" method="{{ method }}">
+        <input type="submit" title="Understood">
+    </form>
+{% endblock %}
