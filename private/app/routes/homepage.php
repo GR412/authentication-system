@@ -6,7 +6,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 $app->get('/', function(Request $request, Response $response)
 {
 
-    $sid = session_id();
+    //$sid = session_id();
 
     return $this->view->render($response,
         'homepage.html.twig',
@@ -18,4 +18,5 @@ $app->get('/', function(Request $request, Response $response)
             'page_title' => 'Login App - Homepage',
             //'sid' => $sid,
         ]);
+
 })->setName('homepage');

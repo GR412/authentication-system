@@ -1,7 +1,7 @@
 <?php
 
 /* header_footer.html.twig */
-class __TwigTemplate_4ddc373d5fe3fa34317c79e38b19cfb508e8d9f8dc2fd163d4da98ce6d81419a extends Twig_Template
+class __TwigTemplate_f46f09de992cfadafcf4da5f631852e8350e6ac3c7accecfa973758a783cfbc7 extends Twig_Template
 {
     private $source;
 

@@ -3,7 +3,7 @@
 //Development: change to - on, on
 ini_set('display_errors', 'On');
 ini_set('html_errors', 'On');
-//ini_set('xdebug.trace_output_name', 'session_example.%t');
+ini_set('xdebug.trace_output_name', 'private.%t');
 
 define('DIRSEP', DIRECTORY_SEPARATOR);
 
@@ -29,10 +29,10 @@ $settings = [
         'pdo' => [
             'rdbms' => 'mysql',
             'host' => 'localhost',
-            'db_name' => 'user_details_db',
+            'db_name' => 'session_db',
             'port' => '3306',
-            'user_name' => 'session_user', //todo: needs changing
-            'user_password' => 'session_user_pass', //todo: needs changing
+            'user_name' => 'session_user',
+            'user_password' => 'session_user_pass',
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'options' => [
