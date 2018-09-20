@@ -2,7 +2,7 @@
 
 class Model
 {
-    private $email, $username, $password, $sql_wrapper, $sql_queries, $db_handle;
+    public $email, $username, $password, $sql_wrapper, $sql_queries, $db_handle;
 
     public function __construct()
     {
@@ -21,6 +21,15 @@ class Model
         $this->email = $p_email;
         $this->username = $p_username;
         $this->password = $p_password;
+    }
+
+    public function perform_detail_retrieval($p_detail){
+        if($p_detail == 'username'){
+            return $this->username;
+        }
+        else if($p_detail == 'password'){
+            return $this->password;
+        }
     }
 
     public function set_sql_wrapper ($p_sql_wrapper)
@@ -49,5 +58,14 @@ class Model
         //$m_store_result = $this->sql_wrapper->store_details('user_password', $this->password);
 
         return $m_store_result;
+    }
+
+    public function retrieve_user_details ()
+    {
+        $this->sql_wrapper->set_db_handle($this->db_handle);
+        $this->sql_wrapper->set_sql_queries($this->sql_queries);
+
+        $this->sql_wrapper->retrieve_details($this->username, $this->password);
+
     }
 }

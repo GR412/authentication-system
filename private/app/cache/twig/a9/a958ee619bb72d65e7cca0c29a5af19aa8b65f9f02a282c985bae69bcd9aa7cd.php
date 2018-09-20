@@ -41,6 +41,7 @@ class __TwigTemplate_a1b1277ffb1e88215b008f69fb257104a5de791756421b7814c351847f7
         <p>Email: <input type=\"text\" name=\"email\"><br></p>
         <p>Username: <input type=\"text\" name=\"username\"><br></p>
         <p>Password: <input type=\"text\" name=\"password\"><br></p>
+        <!--<p>Password Confirm: <input type=\"text\" name=\"password_confirm\"><br></p>  THIS WILL BE IMPLEMENTED LATER-->
         <input type=\"submit\" value=\"Create Account\">
     </form>
 ";

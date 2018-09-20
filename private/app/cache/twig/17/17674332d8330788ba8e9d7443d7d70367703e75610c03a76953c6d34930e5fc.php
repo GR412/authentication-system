@@ -32,7 +32,9 @@ class __TwigTemplate_f2d988128a7a070cc42671320bc1b5871a249de0bd1cc3b66fc637a0570
     public function block_content($context, array $blocks = array())
     {
         // line 3
-        echo "    <h3>Login To An Existing Account</h3>
+        echo "    <h3>";
+        echo twig_escape_filter($this->env, ($context["title"] ?? null), "html", null, true);
+        echo "</h3>
 
     <form action=\"";
         // line 5
@@ -59,7 +61,7 @@ class __TwigTemplate_f2d988128a7a070cc42671320bc1b5871a249de0bd1cc3b66fc637a0570
 
     public function getDebugInfo()
     {
-        return array (  39 => 5,  35 => 3,  32 => 2,  15 => 1,);
+        return array (  41 => 5,  35 => 3,  32 => 2,  15 => 1,);
     }
 
     public function getSourceContext()

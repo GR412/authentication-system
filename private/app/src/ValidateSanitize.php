@@ -53,11 +53,11 @@ class Validate_Sanitize
         elseif(strlen($f_validated_password) > 32)
             $f_validated_password = 'Your password of length ' . (strlen($f_validated_password)) . 'is greater than 32, please decrease the length';
 
-        elseif(!preg_match('/^[A-Z]{1}$/', $f_validated_password))
+        /*elseif(!preg_match('/^[A-Z]{1}$/', $f_validated_password))
             $f_validated_password = 'Your password must have at least one capital letter';
 
         elseif(!preg_match('/^[0-9]{1}$/', $f_validated_password) === true)
-                $f_validated_password = 'Your password must have at least one number';
+                $f_validated_password = 'Your password must have at least one number';*/
 
         return $f_validated_password;
     }

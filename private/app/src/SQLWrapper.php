@@ -38,6 +38,31 @@ class SQLWrapper
         return($this->c_arr_errors);
     }
 
+    public function retrieve_details($p_username, $p_password)
+    {
+         echo 'user inputted password is: ' . $p_password . ' ||';
+
+        if($this->details_exist($p_username) === true)
+        {
+            $row = $this->c_obj_stmt->fetch(PDO::FETCH_ASSOC);
+
+            $hashed_password = $row["password"];
+
+            echo 'hashed password stored in database is: ' . $hashed_password . ' || ';
+
+            if(password_verify($p_password, $hashed_password) === true)
+            {
+                echo 'passwords match! You have been logged in!';
+                $_SESSION['loggedin'] = true;
+                $_SESSION['user'] = $p_username;
+            }
+
+            else
+                echo 'passwords do NOT match! || ';
+        }
+
+    }
+
     /*public function user_username_exists($p_session_key)
     {
         $user_email_exists = false;
@@ -59,8 +84,6 @@ class SQLWrapper
 
     public function create_user_account($p_username, $p_email, $p_password)
     {
-
-
         $f_sql_query = $this->c_obj_sql_queries->create_user();
 
         $f_arr_sql_parameters = [
@@ -71,6 +94,52 @@ class SQLWrapper
 
         $this->query_sql($f_sql_query, $f_arr_sql_parameters);
     }
+
+    public function details_exist($p_username)
+    {
+        $details_exists = false;
+
+        $f_sql_query = $this->c_obj_sql_queries->check_details();
+
+        $f_arr_sql_parameters = [
+            ':username' => $p_username,
+            //':password' => $p_password,
+        ];
+
+        $this->query_sql($f_sql_query, $f_arr_sql_parameters);
+
+        //$con = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
+        //$this->c_obj_stmt = $this->c_obj_db_handle->prepare($f_sql_query);
+        //$this->c_obj_stmt->bindParam(':name', $p_username);
+        //$this->c_obj_stmt->execute();
+
+        if ($this->row_count() > 0)
+        {
+            $details_exists = true;
+            echo 'username + password exist || ';
+        }
+
+        else
+            echo 'username + password are non existent || ';
+
+        echo $this->row_count() . ' rows containing the username + password || ';
+
+        return $details_exists;
+    }
+
+    public function get_details($p_password)
+    {
+        $m_query_string = $this->c_obj_sql_queries->get_details();
+
+        $m_arr_query_parameters = [
+            //':username' => $p_username,
+            ':password' => $p_password,
+        ];
+
+        $this->query_sql($m_query_string, $m_arr_query_parameters);
+        //return $this->safe_fetch_array();
+    }
+
 
     /*private function set_session_var($p_username, $p_email, $p_password)
     {
@@ -129,17 +198,17 @@ class SQLWrapper
         return $f_num_rows;
     }
 
-    /*public function safe_fetch_row()
+    public function safe_fetch_row()
     {
-        $m_record_set = $this->c_obj_stmt->fetch(PDO::FETCH_NUM);
-        return $m_record_set;
+        //$m_record_set = $this->c_obj_stmt->fetch();
+        //return $m_record_set;
     }
 
     public function safe_fetch_array()
     {
-        $m_arr_row = $this->c_obj_stmt->fetch(PDO::FETCH_ASSOC);
+        //$m_arr_row = $this->c_obj_stmt->fetch(PDO::FETCH_ASSOC);
         $this->c_obj_stmt->closeCursor();
-        return $m_arr_row;
+        //return $m_arr_row;
     }
 
     public function last_inserted_ID()
@@ -150,7 +219,7 @@ class SQLWrapper
         $m_arr_last_inserted_id = $this->safe_fetch_array();
         $m_last_inserted_id = $m_arr_last_inserted_id['LAST_INSERT_ID()'];
         return $m_last_inserted_id;
-    }*/
+    }
 
     public function generate_user_id()
     {
