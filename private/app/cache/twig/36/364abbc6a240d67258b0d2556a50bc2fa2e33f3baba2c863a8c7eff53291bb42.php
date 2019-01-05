@@ -61,21 +61,14 @@ class __TwigTemplate_4ddc373d5fe3fa34317c79e38b19cfb508e8d9f8dc2fd163d4da98ce6d8
         echo "\" method=\"get\">
             <input type=\"submit\" value=\"Login\" />
         </form>
-
-        <form action=\"";
-        // line 17
-        echo twig_escape_filter($this->env, ($context["login_form"] ?? null), "html", null, true);
-        echo "\" method=\"get\">
-            <input type=\"submit\" value=\"Log Out\" />
-        </form>
     </header>
 ";
     }
 
-    // line 22
+    // line 18
     public function block_footer($context, array $blocks = array())
     {
-        // line 23
+        // line 19
         echo "    <footer> <!--FOOTER START-->
         <p>Created By GR412 2018</p>
 
@@ -108,7 +101,7 @@ class __TwigTemplate_4ddc373d5fe3fa34317c79e38b19cfb508e8d9f8dc2fd163d4da98ce6d8
 
     public function getDebugInfo()
     {
-        return array (  79 => 23,  76 => 22,  67 => 17,  60 => 13,  53 => 9,  48 => 7,  43 => 4,  40 => 3,  34 => 2,  15 => 1,);
+        return array (  72 => 19,  69 => 18,  60 => 13,  53 => 9,  48 => 7,  43 => 4,  40 => 3,  34 => 2,  15 => 1,);
     }
 
     public function getSourceContext()

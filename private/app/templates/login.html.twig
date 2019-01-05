@@ -1,10 +1,10 @@
 {% extends 'header_footer.html.twig'%}
 {% block content %}
-    <h3>{{ title }}</h3>
+    <h3>Sign In To An Existing Account</h3>
 
-    <form action="{{ action_login }}" method="{{ method }}">
-        <p>Username: <input type="text" name="username"><br></p>
-        <p>Password: <input type="text" name="password"><br></p>
-        <input type="submit" title="Login To Account">
+    <form action="{{ path_for('login') }}" method="post">
+        <p>Username: <input type="text" name="username" value="{{ old.username }}"> {{ validation_errors.username_message }} {{ validation_errors.message }}<br></p>
+        <p>Password: <input type="text" name="password"> {{ validation_errors.password_message }}<br></p>
+        <input type="submit" value="Login To Account">
     </form>
 {% endblock %}

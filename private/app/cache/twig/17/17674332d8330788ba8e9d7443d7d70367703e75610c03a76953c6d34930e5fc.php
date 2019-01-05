@@ -32,19 +32,25 @@ class __TwigTemplate_f2d988128a7a070cc42671320bc1b5871a249de0bd1cc3b66fc637a0570
     public function block_content($context, array $blocks = array())
     {
         // line 3
-        echo "    <h3>";
-        echo twig_escape_filter($this->env, ($context["title"] ?? null), "html", null, true);
-        echo "</h3>
+        echo "    <h3>Sign In To An Existing Account</h3>
 
     <form action=\"";
         // line 5
-        echo twig_escape_filter($this->env, ($context["action_login"] ?? null), "html", null, true);
-        echo "\" method=\"";
-        echo twig_escape_filter($this->env, ($context["method"] ?? null), "html", null, true);
-        echo "\">
-        <p>Username: <input type=\"text\" name=\"username\"><br></p>
-        <p>Password: <input type=\"text\" name=\"password\"><br></p>
-        <input type=\"submit\" title=\"Login To Account\">
+        echo twig_escape_filter($this->env, $this->extensions['Slim\Views\TwigExtension']->pathFor("login"), "html", null, true);
+        echo "\" method=\"post\">
+        <p>Username: <input type=\"text\" name=\"username\" value=\"";
+        // line 6
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["old"] ?? null), "username", array()), "html", null, true);
+        echo "\"> ";
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["validation_errors"] ?? null), "username_message", array()), "html", null, true);
+        echo " ";
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["validation_errors"] ?? null), "message", array()), "html", null, true);
+        echo "<br></p>
+        <p>Password: <input type=\"text\" name=\"password\"> ";
+        // line 7
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["validation_errors"] ?? null), "password_message", array()), "html", null, true);
+        echo "<br></p>
+        <input type=\"submit\" value=\"Login To Account\">
     </form>
 ";
     }
@@ -61,7 +67,7 @@ class __TwigTemplate_f2d988128a7a070cc42671320bc1b5871a249de0bd1cc3b66fc637a0570
 
     public function getDebugInfo()
     {
-        return array (  41 => 5,  35 => 3,  32 => 2,  15 => 1,);
+        return array (  51 => 7,  43 => 6,  39 => 5,  35 => 3,  32 => 2,  15 => 1,);
     }
 
     public function getSourceContext()

@@ -20,46 +20,6 @@ $container['view'] = function ($container) {
     return $view;
 };
 
-$container['validate_sanitize'] = function ($container)
-{
-    $class_path = $container->get('settings')['class_path'];
-    require $class_path . 'ValidateSanitize.php';
-    $validator = new Validate_Sanitize();
-    return $validator;
-};
-
-$container['hash_password'] = function($container)
-{
-    $class_path = $container->get('settings')['class_path'];
-    require $class_path . 'HashPassword.php';
-    $hash = new HashPassword();
-    return $hash;
-};
-
-$container['model'] = function($container)
-{
-    $class_path = $container->get('settings')['class_path'];
-    require $class_path . 'Model.php';
-    $model = new Model();
-    return $model;
-};
-
-$container['sql_wrapper'] = function ($container)
-{
-    $class_path = $container->get('settings')['class_path'];
-    require $class_path . 'SQLWrapper.php';
-    $sql_wrapper = new SQLWrapper();
-    return $sql_wrapper;
-};
-
-$container['sql_queries'] = function ($container)
-{
-    $class_path = $container->get('settings')['class_path'];
-    require $class_path . 'SQLQueries.php';
-    $sql_queries = new SQLQueries();
-    return $sql_queries;
-};
-
 $container['dbase'] = function ($container)
 {
     $db_conf = $container['settings']['pdo'];
@@ -81,4 +41,41 @@ $container['dbase'] = function ($container)
     }
     return $obj_pdo;
 };
+
+$container['HomeController'] = function ($container)
+{
+    return new App\Controllers\HomeController($container);
+};
+
+$container['AuthController'] = function ($container)
+{
+    return new App\Controllers\AuthController($container);
+};
+
+$container['ValidateSanitize'] = function ($container)
+{
+    return new App\src\ValidateSanitize($container);
+};
+
+$container['Model'] = function($container)
+{
+    return new App\src\Model($container);
+};
+
+$container['SQLWrapper'] = function($container)
+{
+    return new App\src\SQLWrapper($container);
+};
+
+$container['SQLQueries'] = function($container)
+{
+    return new App\src\SQLQueries($container);
+};
+
+$container['Authenticate'] = function($container)
+{
+    return new App\src\Authenticate($container);
+};
+
+
 

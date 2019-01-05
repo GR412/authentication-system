@@ -1,50 +1,82 @@
 <?php
 
+namespace App\src;
+
+use PDO;
+
+//please note that $_p represents an incoming parameter
+
 class SQLWrapper
 {
-    private $c_obj_db_handle;
-    private $c_obj_sql_queries;
-    private $c_obj_stmt;
-    private $c_arr_errors;
+    private $obj_db_handle, $obj_sql_queries, $obj_stmt, $arr_errors;
 
-    public function __construct()
+    public function __construct() //initialise each model field variable to a default value of null
     {
-        $this->c_obj_db_handle = null;
-        $this->c_obj_sql_queries = null;
-        $this->c_obj_stmt = null;
-        $this->c_arr_errors = [];
+        $this->obj_db_handle = null;
+        $this->obj_sql_queries = null;
+        $this->obj_stmt = null;
+        $this->arr_errors = [];
     }
 
     public function __destruct() {}
 
-    public function set_db_handle($p_obj_db_handle)
+    public function set_db_handle($p_obj_db_handle) //assigns the incoming database handle object to the models database handle field variable
     {
-        $this->c_obj_db_handle = $p_obj_db_handle;
+        $this->obj_db_handle = $p_obj_db_handle;
     }
 
-    public function set_sql_queries($p_obj_sql_queries)
+    public function set_sql_queries($p_obj_sql_queries) //assigns the incoming sql queries object to the models sql queries field variable
     {
-        $this->c_obj_sql_queries = $p_obj_sql_queries;
+        $this->obj_sql_queries = $p_obj_sql_queries;
     }
 
-    public function store_details($p_username, $p_email, $p_password)
+    /*public function email_exists($p_email)
     {
-       // if ($this->user_username_exists($p_username) === true)
-            //$this->set_session_var($p_username, $p_password);
+        $email_exists = false;
 
-       // else
-            $this->create_user_account($p_username, $p_email, $p_password);
+        $f_sql_query = $this->obj_sql_queries->check_details();
 
-        return($this->c_arr_errors);
+        $f_arr_sql_parameters = [
+            ':email' => $p_email,
+            //':password' => $p_password,
+        ];
+
+        $this->query_sql($f_sql_query, $f_arr_sql_parameters);
+
+        //$con = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
+        //$this->c_obj_stmt = $this->c_obj_db_handle->prepare($f_sql_query);
+        //$this->c_obj_stmt->bindParam(':name', $p_username);
+        //$this->c_obj_stmt->execute();
+
+        if ($this->row_count() > 0)
+            $email_exists = false;
+
+        else
+            $email_exists = true;
+
+        return $email_exists;
+    }*/
+
+    public function store_details($p_email, $p_username, $p_password) //
+    {
+        $f_sql_query = $this->obj_sql_queries->create_user();
+
+        $f_arr_sql_parameters = [
+            ':email' => $p_email,
+            ':username' => $p_username,
+            ':password' => $p_password
+        ];
+
+        $this->query_sql($f_sql_query, $f_arr_sql_parameters);
     }
 
-    public function retrieve_details($p_username, $p_password)
+    public function attempt_authentication($p_username, $p_password)
     {
          echo 'user inputted password is: ' . $p_password . ' ||';
 
-        if($this->details_exist($p_username) === true)
+        if($this->username_exists($p_username) === true)
         {
-            $row = $this->c_obj_stmt->fetch(PDO::FETCH_ASSOC);
+            $row = $this->obj_stmt->fetch(PDO::FETCH_ASSOC);
 
             $hashed_password = $row["password"];
 
@@ -82,24 +114,30 @@ class SQLWrapper
         return $user_email_exists;
     }*/
 
-    public function create_user_account($p_username, $p_email, $p_password)
+    public function email_exists($p_email)
     {
-        $f_sql_query = $this->c_obj_sql_queries->create_user();
+        $email_exists = false;
+
+        $f_sql_query = $this->obj_sql_queries->check_email();
 
         $f_arr_sql_parameters = [
-            ':username' => $p_username,
             ':email' => $p_email,
-            ':password' => $p_password
+            //':password' => $p_password,
         ];
 
         $this->query_sql($f_sql_query, $f_arr_sql_parameters);
+
+        if ($this->row_count() == 1)
+            $email_exists = true;
+
+        return $email_exists;
     }
 
-    public function details_exist($p_username)
+    public function username_exists($p_username)
     {
-        $details_exists = false;
+        $username_exists = false;
 
-        $f_sql_query = $this->c_obj_sql_queries->check_details();
+        $f_sql_query = $this->obj_sql_queries->check_username();
 
         $f_arr_sql_parameters = [
             ':username' => $p_username,
@@ -108,28 +146,23 @@ class SQLWrapper
 
         $this->query_sql($f_sql_query, $f_arr_sql_parameters);
 
-        //$con = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
-        //$this->c_obj_stmt = $this->c_obj_db_handle->prepare($f_sql_query);
-        //$this->c_obj_stmt->bindParam(':name', $p_username);
-        //$this->c_obj_stmt->execute();
-
-        if ($this->row_count() > 0)
+        if ($this->row_count() == 1)
         {
-            $details_exists = true;
-            echo 'username + password exist || ';
+            $username_exists = true;
+            //echo 'username + password exist || ';
         }
 
-        else
-            echo 'username + password are non existent || ';
+       // else
+            //echo 'username + password are non existent || ';
 
-        echo $this->row_count() . ' rows containing the username + password || ';
+        //echo $this->row_count() . ' rows containing the username + password || ';
 
-        return $details_exists;
+        return $username_exists;
     }
 
-    public function get_details($p_password)
+    /*public function get_details($p_password)
     {
-        $m_query_string = $this->c_obj_sql_queries->get_details();
+        $m_query_string = $this->obj_sql_queries->get_details();
 
         $m_arr_query_parameters = [
             //':username' => $p_username,
@@ -141,7 +174,7 @@ class SQLWrapper
     }
 
 
-    /*private function set_session_var($p_username, $p_email, $p_password)
+    public function set_session_var($p_username, $p_email, $p_password)
     {
         $m_query_string = $this->c_obj_sql_queries->update_user();
 
@@ -156,7 +189,7 @@ class SQLWrapper
 
     public function query_sql($p_sql_query, $p_arr_sql_parameters = null)
     {
-        $this->c_arr_errors['db_error'] = false;
+        $this->arr_errors['db_error'] = false;
         $query_string = $p_sql_query;
         $arr_sql_parameters = $p_arr_sql_parameters;
 
@@ -164,19 +197,19 @@ class SQLWrapper
         {
             $f_temp_array = array();
 
-            $this->c_obj_stmt = $this->c_obj_db_handle->prepare($query_string);
+            $this->obj_stmt = $this->obj_db_handle->prepare($query_string);
 
             if (sizeof($arr_sql_parameters) > 0)
             {
                 foreach ($arr_sql_parameters as $f_param_key => $f_param_value)
                 {
                     $f_temp_array[$f_param_key] = $f_param_value;
-                    $this->c_obj_stmt->bindParam($f_param_key, $f_temp_array[$f_param_key], PDO::PARAM_STR);
+                    $this->obj_stmt->bindParam($f_param_key, $f_temp_array[$f_param_key], PDO::PARAM_STR);
                 }
             }
 
-            $f_execute_query = $this->c_obj_stmt->execute();
-            $this->c_arr_errors['execute-OK'] = $f_execute_query;
+            $f_execute_query = $this->obj_stmt->execute();
+            $this->arr_errors['execute-OK'] = $f_execute_query;
         }
 
         catch(PDOException $exception_object)
@@ -184,17 +217,17 @@ class SQLWrapper
             $m_error_message  = 'PDO Exception caught. ';
             $m_error_message .= 'Error with the database access.' . "\n";
             $m_error_message .= 'SQL query: ' . $p_sql_query . "\n";
-            $m_error_message .= 'Error: ' . var_dump($this->c_obj_stmt->errorInfo(), true) . "\n";
+            $m_error_message .= 'Error: ' . var_dump($this->obj_stmt->errorInfo(), true) . "\n";
             // NB would usually output to file for sysadmin attention
-            $this->c_arr_errors['db_error'] = true;
-            $this->c_arr_errors['sql_error'] = $m_error_message;
+            $this->arr_errors['db_error'] = true;
+            $this->arr_errors['sql_error'] = $m_error_message;
         }
-        return $this->c_arr_errors['db_error'];
+        return $this->arr_errors['db_error'];
     }
 
     public function row_count()
     {
-        $f_num_rows = $this->c_obj_stmt->rowCount();
+        $f_num_rows = $this->obj_stmt->rowCount();
         return $f_num_rows;
     }
 
@@ -207,7 +240,7 @@ class SQLWrapper
     public function safe_fetch_array()
     {
         //$m_arr_row = $this->c_obj_stmt->fetch(PDO::FETCH_ASSOC);
-        $this->c_obj_stmt->closeCursor();
+        //$this->obj_stmt->closeCursor();
         //return $m_arr_row;
     }
 

@@ -2,11 +2,11 @@
 {% block content %}
     <h3>Register A New Account</h3>
 
-    <form action="{{ action_register }}" method="post">
-        <p>Email: <input type="text" name="email"><br></p>
-        <p>Username: <input type="text" name="username"><br></p>
-        <p>Password: <input type="text" name="password"><br></p>
-        <!--<p>Password Confirm: <input type="text" name="password_confirm"><br></p>  THIS WILL BE IMPLEMENTED LATER-->
+    <form action = "{{ register_action }}" method = "post">
+        <p>Email: <input type="text" name="email" value="{{ old.email }}" > {{ validation_errors.email_message }} {{ validation_errors.email_taken_message }} <br></p>
+        <p>Username: <input type="text" name="username" value="{{ old.username }}" > {{ validation_errors.username_message }} {{ validation_errors.username_taken_message }}  <br></p>
+        <p>Password: <input type="text" name="password" > {{ validation_errors.password_message }} <br></p>
+        <p>Password Confirm: <input type="text" name="password_confirm"> {{ validation_errors.password_confirm_message }}<br></p>
         <input type="submit" value="Create Account">
     </form>
 {% endblock %}

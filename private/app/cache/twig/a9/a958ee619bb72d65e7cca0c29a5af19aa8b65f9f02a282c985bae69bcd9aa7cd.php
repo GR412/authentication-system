@@ -34,14 +34,34 @@ class __TwigTemplate_a1b1277ffb1e88215b008f69fb257104a5de791756421b7814c351847f7
         // line 3
         echo "    <h3>Register A New Account</h3>
 
-    <form action=\"";
+    <form action = \"";
         // line 5
-        echo twig_escape_filter($this->env, ($context["action_register"] ?? null), "html", null, true);
-        echo "\" method=\"post\">
-        <p>Email: <input type=\"text\" name=\"email\"><br></p>
-        <p>Username: <input type=\"text\" name=\"username\"><br></p>
-        <p>Password: <input type=\"text\" name=\"password\"><br></p>
-        <!--<p>Password Confirm: <input type=\"text\" name=\"password_confirm\"><br></p>  THIS WILL BE IMPLEMENTED LATER-->
+        echo twig_escape_filter($this->env, ($context["register_action"] ?? null), "html", null, true);
+        echo "\" method = \"post\">
+        <p>Email: <input type=\"text\" name=\"email\" value=\"";
+        // line 6
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["old"] ?? null), "email", array()), "html", null, true);
+        echo "\" > ";
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["validation_errors"] ?? null), "email_message", array()), "html", null, true);
+        echo " ";
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["validation_errors"] ?? null), "email_taken_message", array()), "html", null, true);
+        echo " <br></p>
+        <p>Username: <input type=\"text\" name=\"username\" value=\"";
+        // line 7
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["old"] ?? null), "username", array()), "html", null, true);
+        echo "\" > ";
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["validation_errors"] ?? null), "username_message", array()), "html", null, true);
+        echo " ";
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["validation_errors"] ?? null), "username_taken_message", array()), "html", null, true);
+        echo "  <br></p>
+        <p>Password: <input type=\"text\" name=\"password\" > ";
+        // line 8
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["validation_errors"] ?? null), "password_message", array()), "html", null, true);
+        echo " <br></p>
+        <p>Password Confirm: <input type=\"text\" name=\"password_confirm\"> ";
+        // line 9
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["validation_errors"] ?? null), "password_confirm_message", array()), "html", null, true);
+        echo "<br></p>
         <input type=\"submit\" value=\"Create Account\">
     </form>
 ";
@@ -59,7 +79,7 @@ class __TwigTemplate_a1b1277ffb1e88215b008f69fb257104a5de791756421b7814c351847f7
 
     public function getDebugInfo()
     {
-        return array (  39 => 5,  35 => 3,  32 => 2,  15 => 1,);
+        return array (  63 => 9,  59 => 8,  51 => 7,  43 => 6,  39 => 5,  35 => 3,  32 => 2,  15 => 1,);
     }
 
     public function getSourceContext()

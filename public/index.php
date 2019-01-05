@@ -1,3 +1,3 @@
 <?php
 
-include_once '../private/bootstrap.php';
+require __DIR__ . '/../private/bootstrap.php';
