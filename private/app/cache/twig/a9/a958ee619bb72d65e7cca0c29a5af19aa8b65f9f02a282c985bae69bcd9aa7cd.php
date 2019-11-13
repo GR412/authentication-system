@@ -52,7 +52,7 @@ class __TwigTemplate_a1b1277ffb1e88215b008f69fb257104a5de791756421b7814c351847f7
         echo "\" > ";
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["validation_errors"] ?? null), "username_message", array()), "html", null, true);
         echo " ";
-        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["validation_errors"] ?? null), "username_taken_message", array()), "html", null, true);
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["validation_errors"] ?? null), "username_exists_message", array()), "html", null, true);
         echo "  <br></p>
         <p>Password: <input type=\"text\" name=\"password\" > ";
         // line 8

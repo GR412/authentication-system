@@ -4,7 +4,7 @@
 
     <form action = "{{ register_action }}" method = "post">
         <p>Email: <input type="text" name="email" value="{{ old.email }}" > {{ validation_errors.email_message }} {{ validation_errors.email_taken_message }} <br></p>
-        <p>Username: <input type="text" name="username" value="{{ old.username }}" > {{ validation_errors.username_message }} {{ validation_errors.username_taken_message }}  <br></p>
+        <p>Username: <input type="text" name="username" value="{{ old.username }}" > {{ validation_errors.username_message }} {{ validation_errors.username_exists_message }}  <br></p>
         <p>Password: <input type="text" name="password" > {{ validation_errors.password_message }} <br></p>
         <p>Password Confirm: <input type="text" name="password_confirm"> {{ validation_errors.password_confirm_message }}<br></p>
         <input type="submit" value="Create Account">

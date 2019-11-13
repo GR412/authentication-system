@@ -62,6 +62,8 @@ class Model
 
         $this->sql_wrapper->set_db_handle($this->db_handle); //pass the models database handle object to the sql wrapper class
         $this->sql_wrapper->set_sql_queries($this->sql_queries); //pass the models sql queries object to the sql wrapper class
+        $this->sql_wrapper->email_exists($this->email);
+
 
         $this->sql_wrapper->store_details($this->email, $this->username, $this->password); //pass the models email, username and password field variables to the sql wrapper ready for database insertion
     }

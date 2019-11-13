@@ -6,13 +6,32 @@ namespace App\src;
 
 class ValidateSanitize
 {
-    public $validation_errors = array('email_error' => ' ', 'username_error' => ' ', 'password_error' => ' ', 'password_confirm_error' => ' ');
+    private $validation_errors = array('email_error' => ' ', 'username_error' => ' ', 'password_error' => ' ', 'password_confirm_error' => ' ', 'email_taken_error' => ' ', 'username_taken_error' => ' ');
+    private $sql_wrapper, $sql_queries, $db_handle;
 
-    //protected $errors;
-
-    public function __construct(){ }
+    public function __construct()
+    {
+        $this->sql_wrapper = null;
+        $this->sql_queries = null;
+        $this->db_handle = null;
+    }
 
     public function __destruct(){ }
+
+    public function set_sql_wrapper ($p_sql_wrapper) //assigns the incoming sql wrapper object to the models sql field variable
+    {
+        $this->sql_wrapper = $p_sql_wrapper;
+    }
+
+    public function set_sql_queries ($p_sql_queries) //assigns the incoming sql queries object to the models sql queries field variable
+    {
+        $this->sql_queries = $p_sql_queries;
+    }
+
+    public function set_db_handle ($p_db_handle) //assigns the incoming database handle object to the models database handle field variable
+    {
+        $this->db_handle = $p_db_handle;
+    }
 
     public function sanitize_input($p_input, $p_filter_type) //takes in a string to sanitise and a filter type depending on the string to sanitise
     {
@@ -37,6 +56,9 @@ class ValidateSanitize
 
         elseif(!filter_var($p_email_to_validate, FILTER_VALIDATE_EMAIL))
             $this->validation_errors['email_error'] = 'Invalid email';
+
+        //elseif($this->sql_wrapper->email_exists($p_email_to_validate) == true)
+            //$this->validation_errors['email_error'] = 'Email already taken';
 
         else
             $this->validation_errors['email_error'] = ' '; //if no validation was violated, produce no error messages
@@ -71,6 +93,9 @@ class ValidateSanitize
         elseif(!preg_match('/[A-Z]/', $p_password_to_validate))
             $this->validation_errors['password_error'] = 'Your password must have at least one capital letter';
 
+        elseif(!preg_match('/[a-z]/', $p_password_to_validate))
+            $this->validation_errors['password_error'] = 'Your password must have at least one lowercase letter';
+
         elseif(!preg_match('/[0-9]/', $p_password_to_validate))
             $this->validation_errors['password_error'] = 'Your password must have at least one number';
 
@@ -95,6 +120,9 @@ class ValidateSanitize
         elseif(!preg_match('/[A-Z]/', $p_password_confirm_to_validate))
             $this->validation_errors['password_error'] = 'Your password conformation must have at least one capital letter';
 
+        elseif(!preg_match('/[a-z]/', $p_password_confirm_to_validate))
+            $this->validation_errors['password_error'] = 'Your password must have at least one lowercase letter';
+
         elseif(!preg_match('/[0-9]/', $p_password_confirm_to_validate))
             $this->validation_errors['password_error'] = 'Your password conformation must have at least one number';
 
@@ -103,11 +131,6 @@ class ValidateSanitize
 
         else
             $this->validation_errors['password_confirm_error'] = ' ';
-    }
-
-    public function get_validate_messages($index_string)
-    {
-        return $this->validation_errors[$index_string];
     }
 
     public function check_passwords_match($p_password, $p_password_conformation)
@@ -122,12 +145,66 @@ class ValidateSanitize
         }
     }
 
-    public function does_email_exist($p_result)
+    public function check_email_exists($p_email_to_check)
     {
-        //if ($p_result === true)
-           // $this->validation_errors['email_error'] = 'Email is already taken';
+        //$this->sql_wrapper->set_db_handle($this->db_handle); //pass the models database handle object to the sql wrapper class
+        //$this->sql_wrapper->set_sql_queries($this->sql_queries);
 
-        //else
-            //$this->validation_errors['email_error'] = ' ';
+        $result = $this->sql_wrapper->email_exists($p_email_to_check);
+
+        if($result == true)
+        {
+            $this->validation_errors['email_taken_error'] = 'Email already taken';
+            return true;
+        }
+
+        else
+        {
+            $this->validation_errors['email_taken_error'] = ' ';
+            return false;
+        }
     }
+
+    /*public function display_email_exists_message()
+    {
+        $details_taken = array('email_taken_message' => ' ', 'username_taken_message' => ' ');
+        $details_taken['email_taken_message'] = 'Email already taken';
+
+        $_SESSION['validation_errors'] =  $details_taken;
+    }*/
+
+    public function get_validate_messages($index_string)
+    {
+        return $this->validation_errors[$index_string];
+    }
+
+    public function display_validate_messages()
+    {
+        $validation_messages = array //put all of the messages into an associative array
+        (
+            'email_message' => $this->get_validate_messages('email_error'), //give each message an index
+            'username_message' => $this->get_validate_messages('username_error'),
+            'password_message' => $this->get_validate_messages('password_error'),
+            'password_confirm_message' => $this->get_validate_messages('password_confirm_error'),
+            'email_taken_message' => $this->get_validate_messages('email_taken_error')
+        );
+
+        $_SESSION['validation_errors'] = $validation_messages; //pass the array with it's messages into a session ready to be used on the twig template
+    }
+
+    /*public function get_email_taken_messages($index_string)
+    {
+        return $this->details_exist[$index_string];
+    }
+
+    public function display_email_check_messages()
+    {
+        $email_check_messages = array //put all of the messages into an associative array
+        (
+            'email_check_message' => $this->get_email_taken_messages('email_exists_error'), //give each message an index
+
+        );
+
+        $_SESSION['validation_errors'] = $email_check_messages; //pass the array with it's messages into a session ready to be used on the twig template
+    }*/
 }
